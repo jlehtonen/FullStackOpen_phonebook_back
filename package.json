@@ -6,7 +6,11 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "cd ..\\FullStackOpen\\part2\\phonebook\\ && npm run build --prod && xcopy /s /y build\\ ..\\..\\..\\FullStackOpen_phonebook_back\\build\\",
+    "deploy": "git push heroku master",
+    "deploy:full": "npm run build:ui && git add . && git commit -m UIbuild && npm run deploy",
+    "logs:prod": "heroku logs --tail"
   },
   "author": "Jaakko Lehtonen",
   "license": "MIT",
