@@ -38,6 +38,19 @@ app.get("/api/persons", (req, res) => {
 
 app.post("/api/persons", (req, res) => {
   const person = req.body;
+
+  if (!person.name) {
+    return res.status(400).json({ error: "name is required" });
+  }
+
+  if (!person.number) {
+    return res.status(400).json({ error: "number is required" });
+  }
+
+  if (persons.map(p => p.name).includes(person.name)) {
+    return res.status(400).json({ error: "name must be unique" });
+  }
+
   const id = Math.floor(Math.random() * 1e9);
   const newPerson = {
     id,
