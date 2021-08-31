@@ -71,14 +71,14 @@ app.post("/api/persons", (req, res) => {
     return res.status(400).json({ error: "name must be unique" });
   }
 
-  const id = Math.floor(Math.random() * 1e9);
-  const newPerson = {
-    id,
+  const newPerson = new Person({
     name: person.name,
     number: person.number,
-  };
-  persons = [...persons, newPerson];
-  res.status(201).json(newPerson);
+  });
+
+  newPerson.save().then(savedPerson => {
+    res.status(201).json(savedPerson);
+  });
 });
 
 app.get("/api/persons/:id", (req, res) => {
