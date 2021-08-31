@@ -105,6 +105,33 @@ app.delete("/api/persons/:id", (req, res, next) => {
     .catch(error => next(error));
 });
 
+app.put("/api/persons/:id", (req, res, next) => {
+  const person = req.body;
+
+  if (!person.name) {
+    return res.status(400).json({ error: "name is required" });
+  }
+
+  if (!person.number) {
+    return res.status(400).json({ error: "number is required" });
+  }
+
+  const newPerson = {
+    name: person.name,
+    number: person.number,
+  };
+
+  Person.findByIdAndUpdate(req.params.id, newPerson, { new: true })
+    .then(updatedPerson => {
+      if (updatedPerson) {
+        res.json(updatedPerson);
+      } else {
+        res.status(404).end();
+      }
+    })
+    .catch(error => next(error));
+});
+
 const errorHandler = (error, req, res, next) => {
   console.log(error.message);
 
